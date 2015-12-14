@@ -1,6 +1,9 @@
 require 'sinatra/base'
+require_relative './lib/game'
+require_relative './lib/machine'
+require_relative './lib/player'
 
-class RPS < Sinatra::Base
+class Rps < Sinatra::Base
   enable :sessions
 
   get '/' do
@@ -8,33 +11,13 @@ class RPS < Sinatra::Base
   end
 
   post '/name' do
-    session[:player_name] = params[:player_name].capitalize
-    redirect '/play'
+    redirect '/' if params[:player_name] == ''
+    session[:player] = Player.new(params[:player_name])
+    redirect :player
   end
 
   get '/play' do
-    @player_name = session[:player_name]
-    @weapon = session[:weapon]
-    @chosen_weapon = session[:chosen_weapon]
+    @player = session[:player]
     erb :play
   end
-
-  # get '/machine' do
-  #   @chosen_weapon = session[:chosen_weapon]
-  #   erb :play
-  # end
-
-  post '/play' do
-    session[:weapon] = params[:weapon]
-    # session[:chosen_weapon] = Machine.new.chosen_weapon
-    redirect '/play'
-  end
-
-  # post '/machine' do
-  #   session[:chosen_weapon] = params[:chosen_weapon]
-  #   redirect '/play'
-  # end
-
-  # start the server if ruby file executed directly
-  run! if app_file == $0
 end

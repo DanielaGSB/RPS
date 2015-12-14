@@ -10,4 +10,4 @@ Rock, Paper, Scissors, <strong>GO!</strong>
   <input type="submit" name="weapon" value="Scissors">
 </form>
 You chose <%= @weapon.to_s.capitalize %>!
-Machine chose <% @chosen_weapon.to_s.capitalize %>!
+Machine chose <%= @machine.weapon.to_s.capitalize %>!
